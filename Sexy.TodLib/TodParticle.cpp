@@ -932,7 +932,7 @@ void RenderParticle(Graphics* g, TodParticle* theParticle, const Color& theColor
 	}
 	if (aImage == nullptr)
 		return;  
-	((MemoryImage*)aImage)->mD3DFlags |= D3DImageFlags::D3DImageFlag_MinimizeNumSubdivisions;
+	//((MemoryImage*)aImage)->mD3DFlags |= D3DImageFlags::D3DImageFlag_MinimizeNumSubdivisions; //WIDETWEAK: this fixes dirt particle lag. if you suspect this fix is causing issues with resource packs post an issue on the bug hunt forum or the github
 
 	int aCelWidth = aImage->GetCelWidth();
 	int aCelHeight = aImage->GetCelHeight();
