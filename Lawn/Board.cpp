@@ -7864,10 +7864,10 @@ void Board::KeyChar(SexyChar theChar)
 	bool aCanUseKeybinds = mApp->mBankKeybinds && (!mPaused || mApp->mGameScene == GameScenes::SCENE_PLAYING || mApp->mCrazyDaveState != CrazyDaveState::CRAZY_DAVE_OFF);
 	if (isdigit(theChar) && aCanUseKeybinds && mSeedBank->mY >= 0)
 	{
-		for (int i = 0; i < mSeedBank->mNumPackets; i++)
+		for (int i = 0; i <= mSeedBank->mNumPackets; i++) //WIDETWEAK: fix last seed packet not being choosable when using keybinds
 		{
 			int aSeedIndex = i;
-			if (theChar == '0' + aSeedIndex && mSeedBank->mNumPackets > aSeedIndex)
+			if (theChar == '0' + aSeedIndex && mSeedBank->mNumPackets >= aSeedIndex)//WIDETWEAK: ditto
 			{
 				if (mApp->mZeroNineBankFormat)
 				{
