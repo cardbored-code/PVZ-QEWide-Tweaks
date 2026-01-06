@@ -3074,7 +3074,7 @@ void Zombie::UpdateZombiquarium()
             mVelZ = 0.0f;
         }
 
-        if (mPosX > BOARD_WIDTH - 250 || aVelX > 0.0f)
+        if (mPosX > BOARD_WIDTH - 250 && aVelX > 0.0f) //WIDETWEAK: stop snorkel zombies from having a seizure
         {
             mVelZ = PI;
         }
@@ -9083,7 +9083,8 @@ bool Zombie::HasShadow()
     if (mInPool)
         return false;
 
-    return mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_INVISIGHOUL || mFromWave == Zombie::ZOMBIE_WAVE_UI;
+    return mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_INVISIGHOUL || mFromWave == Zombie::ZOMBIE_WAVE_UI ||
+        mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZOMBIQUARIUM; //WIDETWEAK: no shadows in zombiquarium
 }
 
 bool Zombie::SetupDrawZombieWon(Graphics* g)
