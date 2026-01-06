@@ -1,0 +1,29 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Fortran module files
+*.mod
+*.smod
+
+/.vs
+*.tlog
+*.log
+/SexyAppFramework/Debug
+Debug/LawnProject.pdb
+Debug/LawnProject.exe
+/.vs/PlantsVsZombies/v17
+.vs/PlantsVsZombies/v17/.suo
+.vs/PlantsVsZombies/v17/Browse.VC.db
+/enc_temp_folder
+/Debug/appdata
+/Debug/crash.txt
+/Debug/ddraw.dll
+/Debug/dxwrapper.dll
+/Debug/dxwrapper.ini
+/Debug/dxwrapper-lawnproject.log

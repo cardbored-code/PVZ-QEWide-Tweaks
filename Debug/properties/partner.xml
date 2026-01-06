@@ -1,0 +1,4 @@
+﻿<Properties>
+  <Boolean id="DefaultWindowed">false</Boolean>
+  <Boolean id="DontUpdate">true</Boolean>
+</Properties>
