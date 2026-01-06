@@ -2080,21 +2080,21 @@ void Zombie::UpdateZombieGargantuar()
             ReanimShowTrack("Zombie_gargantuar_whiterope", RENDER_GROUP_HIDDEN);
             mApp->PlayFoley(FoleyType::FOLEY_SWING);
 
-            Zombie* aZombieImp = mBoard->AddZombie(ZombieType::ZOMBIE_IMP, mFromWave);
+            Zombie* aZombieImp = mBoard->AddZombie(ZombieType::ZOMBIE_IMP, mFromWave, true); //WIDETWEAK: fix imp making bush animation
             if (aZombieImp == nullptr)
                 return;
             
-            float aMinThrowDistance = 40.0f - BOARD_ADDITIONAL_WIDTH;
+            float aMinThrowDistance = 40.0f; //WIDETWEAK: also remove BOARD_ADDITIONAL_WIDTH
             if (mBoard->StageHasRoof())
             {
                 aThrowingDistance -= 180.0f;
-                aMinThrowDistance = -140.0f - BOARD_ADDITIONAL_WIDTH;
+                aMinThrowDistance = -140.0f; //WIDETWEAK: also remove BOARD_ADDITIONAL_WIDTH
             }
             if (aThrowingDistance < aMinThrowDistance)
             {
                 aThrowingDistance = aMinThrowDistance;
             }
-            else if (aThrowingDistance > 140.0f - BOARD_ADDITIONAL_WIDTH)
+            else if (aThrowingDistance > 140.0f) //WIDETWEAK: also remove BOARD_ADDITIONAL_WIDTH
             {
                 aThrowingDistance -= RandRangeFloat(0.0f, 100.0f);
             }
@@ -2139,7 +2139,7 @@ void Zombie::UpdateZombieGargantuar()
     if (IsImmobilizied() || !mHasHead)
         return;
     
-    if (mHasObject && mBodyHealth < mBodyMaxHealth / 2 && aThrowingDistance > 40.0f - BOARD_ADDITIONAL_WIDTH)
+    if (mHasObject && mBodyHealth < mBodyMaxHealth / 2 && aThrowingDistance > 40.0f) //WIDETWEAK: remove BOARD_ADDITIONAL_WIDTH, this fixes garg being able to throw imp anywhere
     {
         mZombiePhase = ZombiePhase::PHASE_GARGANTUAR_THROWING;
         PlayZombieReanim("anim_throw", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 20, 24.0f);
