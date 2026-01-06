@@ -192,6 +192,9 @@ void TitleScreen::Update()
 		return;
 	}
 
+	mApp->Set3DAcclerated(true);
+	mApp->mIs3dAccel = true;
+
 	MarkDirty();
 	if (!mDrawnYet)
 	{
