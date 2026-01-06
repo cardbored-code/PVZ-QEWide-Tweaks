@@ -202,7 +202,7 @@ int SeedChooserScreen::PickFromWeightedArrayUsingSpecialRandSeed(TodWeightedArra
 	DBG_ASSERT(false);
 }
 
-void SeedChooserScreen::CrazyDavePickSeeds()
+void SeedChooserScreen::CrazyDavePickSeeds() //WIDETWEAK: Fixes the seed packets Crazy Dave chooses so you won't end up with Lily Pad on roof levels. By BeeTeeKay
 {
 	TodWeightedArray aSeedArray[NUM_SEED_TYPES];
 	for (SeedType aSeedType = SEED_PEASHOOTER; aSeedType < NUM_SEEDS_IN_CHOOSER; aSeedType = (SeedType)(aSeedType + 1))
@@ -210,7 +210,9 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 		aSeedArray[aSeedType].mItem = aSeedType;
 		uint aRecFlags = SeedNotRecommendedToPick(aSeedType);
 		if ((aSeedType == SEED_GATLINGPEA && !mApp->mPlayerInfo->mPurchases[STORE_ITEM_PLANT_GATLINGPEA]) || !mApp->SeedTypeAvailable(aSeedType) ||
-			SeedNotAllowedToPick(aSeedType) || Plant::IsUpgrade(aSeedType) || aSeedType == SEED_IMITATER || aSeedType == SEED_UMBRELLA || aSeedType == SEED_BLOVER)
+			SeedNotAllowedToPick(aSeedType) || Plant::IsUpgrade(aSeedType) || aSeedType == SEED_IMITATER || aSeedType == SEED_UMBRELLA ||
+			aSeedType == SEED_BLOVER || aSeedType == SEED_GRAVEBUSTER || aSeedType == SEED_PLANTERN || Plant::IsNocturnal(aSeedType) ||
+			aSeedType == SEED_FLOWERPOT || Plant::IsAquatic(aSeedType))
 		{
 			aSeedArray[aSeedType].mWeight = 0;
 		}
@@ -218,10 +220,34 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 		{
 			aSeedArray[aSeedType].mWeight = 1;
 		}
+		if (mBoard->StageIsNight()) {
+			if (Plant::IsNocturnal(aSeedType) && !Plant::IsUpgrade(aSeedType) && !Plant::IsAquatic(aSeedType))
+			{
+				aSeedArray[aSeedType].mWeight = 1;
+			}
+		}
+		if (mBoard->StageHasPool()) {
+			if (Plant::IsAquatic(aSeedType) && !Plant::IsUpgrade(aSeedType) && !Plant::IsNocturnal(aSeedType))
+			{
+				aSeedArray[aSeedType].mWeight = 1;
+			}
+			else if (mBoard->StageIsNight() && Plant::IsAquatic(aSeedType) && Plant::IsNocturnal(aSeedType) && !Plant::IsUpgrade(aSeedType))
+			{
+				aSeedArray[aSeedType].mWeight = 1;
+			}
+		}
 	}
-	if (mBoard->mZombieAllowed[ZOMBIE_BUNGEE] || mBoard->mZombieAllowed[ZOMBIE_CATAPULT])
+	if (mBoard->StageIsNight())
 	{
-		aSeedArray[SEED_UMBRELLA].mWeight = 1;
+		aSeedArray[SEED_INSTANT_COFFEE].mWeight = 0;
+	}
+	if (mBoard->StageHasGraveStones())
+	{
+		aSeedArray[SEED_GRAVEBUSTER].mWeight = 1;
+	}
+	if (mBoard->StageHasFog())
+	{
+		aSeedArray[SEED_PLANTERN].mWeight = 1;
 	}
 	if (mBoard->mZombieAllowed[ZOMBIE_BALLOON] || mBoard->StageHasFog())
 	{
@@ -230,6 +256,12 @@ void SeedChooserScreen::CrazyDavePickSeeds()
 	if (mBoard->StageHasRoof())
 	{
 		aSeedArray[SEED_TORCHWOOD].mWeight = 0;
+		aSeedArray[SEED_SPIKEWEED].mWeight = 0;
+		aSeedArray[SEED_FLOWERPOT].mWeight = 1;
+	}
+	if (mBoard->mZombieAllowed[ZOMBIE_BUNGEE] || mBoard->mZombieAllowed[ZOMBIE_CATAPULT])
+	{
+		aSeedArray[SEED_UMBRELLA].mWeight = 1;
 	}
 
 	MTRand aLevelRNG = MTRand(mBoard->GetLevelRandSeed());
