@@ -9076,7 +9076,7 @@ int Board::PixelToGridY(int theX, int theY)
 	}
 
 	int aGridX = PixelToGridX(theX, theY);
-	if (aGridX == -1 || theY < LAWN_YMIN + BOARD_OFFSET_Y || theY > BOARD_HEIGHT - LAWN_YMIN)
+	if (aGridX == -1 || theY < LAWN_YMIN + BOARD_OFFSET_Y - 30 || theY > BOARD_HEIGHT - LAWN_YMIN + 50) //WIDETWEAK: fix annoying mouse planting limit or smth
 		return -1;
 
 	if (StageHasRoof())
