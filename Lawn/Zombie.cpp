@@ -842,9 +842,9 @@ void Zombie::SetupDoorArms(Reanimation* aReanim, bool theShow)
     aReanim->AssignRenderGroupToPrefix("Zombie_outerarm_lower", aArmGroup);
     aReanim->AssignRenderGroupToPrefix("Zombie_outerarm_upper", aArmGroup);
     aReanim->AssignRenderGroupToPrefix("anim_innerarm", aArmGroup);
-    aReanim->AssignRenderGroupToPrefix("Zombie_outerarm_screendoor", aDoorGroup);
+    aReanim->AssignRenderGroupToPrefix("Zombie_outerarm_screendoor", RENDER_GROUP_OVER_SHIELD); //WIDETWEAK: fix shield holder layering issue
     aReanim->AssignRenderGroupToPrefix("Zombie_innerarm_screendoor", aDoorGroup);
-    aReanim->AssignRenderGroupToPrefix("Zombie_innerarm_screendoor_hand", aDoorGroup);
+    aReanim->AssignRenderGroupToPrefix("Zombie_innerarm_screendoor_hand", RENDER_GROUP_OVER_SHIELD); //WIDETWEAK: ditto
 }
 
 void Zombie::SetupReanimLayers(Reanimation* aReanim, ZombieType theZombieType)
