@@ -6595,7 +6595,8 @@ void Zombie::CheckIfPreyCaught()
         mZombiePhase == ZombiePhase::PHASE_DOLPHIN_IN_JUMP || 
         mZombiePhase == ZombiePhase::PHASE_SNORKEL_INTO_POOL || 
         mZombiePhase == ZombiePhase::PHASE_SNORKEL_WALKING || 
-        mZombiePhase == ZombiePhase::PHASE_LADDER_PLACING || 
+        mZombiePhase == ZombiePhase::PHASE_LADDER_PLACING ||
+        mZombiePhase == ZombiePhase::PHASE_JACK_IN_THE_BOX_POPPING || //WIDETWEAK: fix jack in the box zombie still eating while exploding
         mZombieHeight == ZombieHeight::HEIGHT_GETTING_BUNGEE_DROPPED || 
         mZombieHeight == ZombieHeight::HEIGHT_UP_LADDER || 
         mZombieHeight == ZombieHeight::HEIGHT_IN_TO_POOL || 
