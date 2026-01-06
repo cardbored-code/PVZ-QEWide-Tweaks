@@ -115,7 +115,7 @@ ChallengeScreen::ChallengeScreen(LawnApp* theApp, ChallengePage thePage)
 	mBackButton->mTextDownOffsetY = 1;
 	mBackButton->mColors[ButtonWidget::COLOR_LABEL] = Color(42, 42, 90);
 	mBackButton->mColors[ButtonWidget::COLOR_LABEL_HILITE] = Color(42, 42, 90);
-	mBackButton->Resize(18 + BOARD_OFFSET_X, 568 + BOARD_OFFSET_Y, 111, 26);
+	mBackButton->Resize(18 + BOARD_OFFSET_X + 35, 568 + BOARD_OFFSET_Y, 111, 26); //WIDETWEAK: moving the back button so it looks nicer
 
 	mChallengesButton = MakeNewButton(ChallengeScreen::ChallengeScreen_Selector, this, _S("[PAGE_SELECTION_BUTTON]"), nullptr, Sexy::IMAGE_SEEDCHOOSER_BUTTON2,
 		Sexy::IMAGE_SEEDCHOOSER_BUTTON2_GLOW, Sexy::IMAGE_SEEDCHOOSER_BUTTON2_GLOW);
@@ -173,7 +173,7 @@ ChallengeScreen::ChallengeScreen(LawnApp* theApp, ChallengePage thePage)
 	mSlider = new Slider(IMAGE_OPTIONS_SLIDERSLOT_PLANT, IMAGE_OPTIONS_SLIDERKNOB_PLANT, 0, this);
 	mSlider->SetValue(max(0.0, min(mMaxScrollPosition, mScrollPosition)));
 	mSlider->mHorizontal = false;
-	mSlider->Resize(775 + BOARD_OFFSET_X, cChallengeRect.mY, 20, cChallengeRect.mHeight);
+	mSlider->Resize(775 + BOARD_OFFSET_X + 19, cChallengeRect.mY, 20, cChallengeRect.mHeight); //WIDETWEAK: move slider cause of buttons
 	mSlider->mThumbOffsetX = -4;
 
 	mApp->mDetails = _S("[DISCORD_CHALLENGE_SCREEN]");
@@ -366,7 +366,7 @@ void ChallengeScreen::DrawButton(Graphics* g, int theChallengeIndex)
 	{
 		aChallengeButton->mMouseVisible = cChallengeRect.Contains(mApp->mWidgetManager->mLastMouseX, mApp->mWidgetManager->mLastMouseY);
 		ChallengeDefinition& aDef = GetChallengeDefinition(theChallengeIndex);
-		aChallengeButton->mX = 38 + aDef.mRow * 155 + BOARD_OFFSET_X;
+		aChallengeButton->mX = 38 + aDef.mRow * 155 + BOARD_OFFSET_X + 19; //WIDETWEAK: 19 more pixels to make them centered //
 		mButtonYStartOffset = cChallengeRect.mY + (aDef.mPage == CHALLENGE_PAGE_SURVIVAL ? 34 : 2);
 		mButtonYOffset = cButtonHeight + (aDef.mPage == CHALLENGE_PAGE_SURVIVAL ? 30 : 2);
 		aChallengeButton->mY = mButtonYStartOffset + aDef.mCol * mButtonYOffset - mScrollPosition;
@@ -472,7 +472,7 @@ void ChallengeScreen::Draw(Graphics* g)
 	g->SetLinearBlend(true);
 	g->DrawImage(Sexy::IMAGE_CHALLENGE_BACKGROUND, 0, 0);
 
-	TodDrawString(g, GetPageTitle(mPageIndex), 400 + BOARD_OFFSET_X, 58 + BOARD_OFFSET_Y, Sexy::FONT_HOUSEOFTERROR28, Color(220, 220, 220), DS_ALIGN_CENTER);
+	TodDrawString(g, GetPageTitle(mPageIndex), 400 + BOARD_OFFSET_X + 19, 58 + BOARD_OFFSET_Y, Sexy::FONT_HOUSEOFTERROR28, Color(220, 220, 220), DS_ALIGN_CENTER); //WIDETWEAK: more off-center stuff here
 
 	int aTrophiesGot = mApp->GetNumTrophies(mPageIndex);
 	int aTrophiesTotal = mApp->GetTotalTrophies(mPageIndex);
