@@ -1138,7 +1138,7 @@ void Zombie::PickRandomSpeed()
     }
     else
     {
-        mVelX = RandRangeFloat(0.23f, 0.32f);
+        mVelX = RandRangeFloat(0.23f, 0.37f); //WIDETWEAK: fixed inaccurate zombie variable speed
         if (mVelX < 0.3f)
         {
             mAnimTicksPerFrame = 12;
