@@ -192,7 +192,7 @@ void TitleScreen::Update()
 		return;
 	}
 
-	mApp->Set3DAcclerated(true);
+	mApp->Set3DAcclerated(true); //WIDETWEAK: 3D acceleration fix
 	mApp->mIs3dAccel = true;
 
 	MarkDirty();
