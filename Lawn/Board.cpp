@@ -168,6 +168,7 @@ Board::Board(LawnApp* theApp)
 	mFastButton = new GameButton(2);
 	mFastButton->Resize(740 + aButtonOffsetX, 30, IMAGE_FASTBUTTON->mWidth, 46);
 	mFastButton->mParentWidget = this;
+	mFastButton->mButtonImage = IMAGE_FASTBUTTON; //WIDETWEAK: fixes a frame perfect crash apparently
 	mStoreButton = nullptr;
 	mIgnoreMouseUp = false;
 	mPeashootersUsed = false;
