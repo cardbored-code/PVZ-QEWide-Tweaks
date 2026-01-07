@@ -27,3 +27,5 @@ Debug/LawnProject.exe
 /Debug/dxwrapper.dll
 /Debug/dxwrapper.ini
 /Debug/dxwrapper-lawnproject.log
+/Release/
+/SexyAppFramework/Release
