@@ -879,7 +879,7 @@ void GameSelector::Update()
 				mApp->PreNewGame(GameMode::GAMEMODE_CHALLENGE_ICE, false);
 				return;
 			}
-			if (mApp->IsFirstTimeAdventureMode() && mLevel == 1 && mApp->SaveFileExists())
+			if (mApp->IsFirstTimeAdventureMode() && mLevel == 1/* && mApp->SaveFileExists()*/) //WIDETWEAK: Fixed the intro not playing the first time you start Adventure mode
 			{
 				mApp->PreNewGame(GameMode::GAMEMODE_INTRO, false);
 				return;
