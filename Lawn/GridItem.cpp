@@ -353,7 +353,7 @@ void GridItem::DrawScaryPot(Graphics* g)
     }
 
     g->DrawImageCel(IMAGE_SCARY_POT, aXPos, aYPos, aImageCol, 1);
-    if (mHighlighted)
+    if (mHighlighted && mBoard->mPaused == false) //WIDETWEAK: fixes vanilla bug where vases can be highlighted while paused
     {
         g->SetDrawMode(Graphics::DRAWMODE_ADDITIVE);
         g->SetColorizeImages(true);
