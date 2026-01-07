@@ -1408,14 +1408,22 @@ void LawnApp::Init()
 	ReanimatorLoadDefinitions(gLawnReanimationArray, ReanimationType::NUM_REANIMS);
 
 	TrailLoadDefinitions(gLawnTrailArray, LENGTH(gLawnTrailArray));
+
+//WIDETWEAK: fixes compilation errors when choosing Release
+#ifdef _DEBUG
 	aDuration = aTimer.GetDuration();
 	TodTrace("loading '%s' %d ms", "trail", aDuration);
+#endif
 	aTimer.Start();
 	TodHesitationTrace("trail");
 
 	TodParticleLoadDefinitions(gLawnParticleArray, LENGTH(gLawnParticleArray));
+
+//WIDETWEAK: same as above
+#ifdef _DEBUG
 	aDuration = aTimer.GetDuration();
 	TodTrace("loading '%s' %d ms", "particle", aDuration);
+#endif
 	aTimer.Start();
 	TodHesitationTrace("particle");
 
