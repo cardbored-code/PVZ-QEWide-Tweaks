@@ -1145,9 +1145,15 @@ void SeedChooserScreen::MouseDown(int x, int y, int theClickCount)
 	{
 		mApp->PlaySample(Sexy::SOUND_GRAVEBUTTON);
 	}
-	else if (mStartButton->IsMouseOver() || mAlmanacButton->IsMouseOver() || mStoreButton->IsMouseOver())
+	else if (mStartButton->IsMouseOver() || mAlmanacButton->IsMouseOver())
 	{
 		mApp->PlaySample(Sexy::SOUND_TAP);
+	}
+	else if (mStoreButton->IsMouseOver()) //WIDETWEAK: fixed scrolling CYS hitbox bug after visiting shop (i can't actually test this out so if there's an issue with this please report to me)
+	{
+		mApp->PlaySample(Sexy::SOUND_TAP);
+		mScrollAmount = 0;
+		mScrollPosition = 0;
 	}
 	else
 	{
