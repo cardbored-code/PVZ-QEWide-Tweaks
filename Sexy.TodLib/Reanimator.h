@@ -149,6 +149,7 @@ public:
     bool                            mTruncateDisappearingFrames;    
     bool                            mIgnoreColorOverride;           
     bool                            mIgnoreExtraAdditiveColor;      
+    bool                            mRenderInBack; //WIDETWEAK: fixed flag zombie flag rendering in front of hand using code from stable decomp
 
 public:
     ReanimatorTrackInstance();

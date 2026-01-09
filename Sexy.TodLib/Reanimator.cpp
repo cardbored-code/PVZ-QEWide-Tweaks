@@ -283,6 +283,7 @@ ReanimatorTrackInstance::ReanimatorTrackInstance()
 	mTrackColor = Color::White;
 	mIgnoreColorOverride = false;
 	mIgnoreExtraAdditiveColor = false;
+	mRenderInBack = false; //WIDETWEAK: fixed flag zombie flag rendering in front of hand using code from stable decomp
 }
 
 Reanimation::Reanimation()
@@ -879,8 +880,18 @@ void Reanimation::DrawRenderGroup(Graphics* g, int theRenderGroup)
 		ReanimatorTrackInstance* aTrackInstance = &mTrackInstances[aTrackIndex];
 		if (aTrackInstance->mRenderGroup == theRenderGroup)
 		{
-			bool aTrackDrawn = DrawTrack(g, aTrackIndex, theRenderGroup, &aTriangleGroup);
-			if (aTrackInstance->mAttachmentID != AttachmentID::ATTACHMENTID_NULL)
+			//bool aTrackDrawn = DrawTrack(g, aTrackIndex, theRenderGroup, &aTriangleGroup);
+			bool aTrackDrawn = false; //WIDETWEAK: fixed flag zombie flag rendering in front of hand using code from stable decomp
+
+			if (aTrackInstance->mRenderInBack && aTrackInstance->mAttachmentID != AttachmentID::ATTACHMENTID_NULL)
+			{
+				aTriangleGroup.DrawGroup(g);
+				AttachmentDraw(aTrackInstance->mAttachmentID, g, aTrackDrawn);
+			}
+
+			aTrackDrawn = DrawTrack(g, aTrackIndex, theRenderGroup, &aTriangleGroup);
+
+			if (!aTrackInstance->mRenderInBack && aTrackInstance->mAttachmentID != AttachmentID::ATTACHMENTID_NULL)
 			{
 				aTriangleGroup.DrawGroup(g);
 				AttachmentDraw(aTrackInstance->mAttachmentID, g, !aTrackDrawn);
