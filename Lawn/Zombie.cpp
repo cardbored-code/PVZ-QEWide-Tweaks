@@ -9084,9 +9084,10 @@ bool Zombie::HasShadow()
 
     if (mInPool)
         return false;
+    if (mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZOMBIQUARIUM) //WIDETWEAK: no shadows in zombiquarium
+        return false;
 
-    return mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_INVISIGHOUL || mFromWave == Zombie::ZOMBIE_WAVE_UI ||
-        mApp->mGameMode == GameMode::GAMEMODE_CHALLENGE_ZOMBIQUARIUM; //WIDETWEAK: no shadows in zombiquarium
+    return mApp->mGameMode != GameMode::GAMEMODE_CHALLENGE_INVISIGHOUL || mFromWave == Zombie::ZOMBIE_WAVE_UI; 
 }
 
 bool Zombie::SetupDrawZombieWon(Graphics* g)
