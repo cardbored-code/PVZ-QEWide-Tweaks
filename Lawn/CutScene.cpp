@@ -2212,7 +2212,7 @@ void CutScene::DrawUpsell(Graphics* g)
 
 void CutScene::UpdateIntro()
 {
-	mBoard->Move(TodAnimateCurve(TimeIntro_PanRightStart, TimeIntro_PanRightEnd, mCutsceneTime, -100, 100, TodCurves::CURVE_LINEAR), 0);
+	mBoard->Move(TodAnimateCurve(TimeIntro_PanRightStart, TimeIntro_PanRightEnd, mCutsceneTime, 100, -100, TodCurves::CURVE_LINEAR), 0); //WIDETWEAK: the intro cutscene now moves to the right instead of the left
 
 	if (mCutsceneTime == 10)
 	{
