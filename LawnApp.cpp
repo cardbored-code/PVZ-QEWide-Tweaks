@@ -2417,12 +2417,19 @@ bool LawnApp::CanShowSeedBankAfterSun()
 	return IsChallengeWithoutSeedBank() && (IsScaryPotterLevel() || IsWhackAZombieLevel());
 }
 
-bool LawnApp::IsNight()
+bool LawnApp::IsNight() //WIDETWEAK: just copied over code from qotl
 {
-	if (IsIceDemo() || mBoard == nullptr)
+	if (IsIceDemo() || mPlayerInfo == nullptr)
 		return false;
-	
-	return (mBoard->mLevel >= 11 && mBoard->mLevel <= 20) || (mBoard->mLevel >= 31 && mBoard->mLevel <= 40) || mBoard->mLevel == 50;
+
+	if (mPlayingQuickplay)
+	{
+		return (mQuickLevel >= 11 && mQuickLevel <= 20) || (mQuickLevel >= 31 && mQuickLevel <= 40) || mQuickLevel == 50;
+	}
+	else
+	{
+		return (mPlayerInfo->mLevel >= 11 && mPlayerInfo->mLevel <= 20) || (mPlayerInfo->mLevel >= 31 && mPlayerInfo->mLevel <= 40) || mPlayerInfo->mLevel == 50;
+	}
 }
 
 int LawnApp::GetCurrentChallengeIndex()
