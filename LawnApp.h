@@ -357,6 +357,9 @@ public:
 	bool							Is3dAccel();
 
 	void							MakeWindow();
+	bool							DrawDirtyStuff();
+	void							Redraw(Rect* theClipRect);
+	bool							UpdateAppStep(bool* updated);
 };
 
 SexyString							LawnGetCurrentLevelName();
