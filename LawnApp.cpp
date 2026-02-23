@@ -55,13 +55,58 @@
 #include "SexyAppFramework/Debug.h"
 #include "Sexy.TodLib/Definition.h"
 
+#include "SexyAppFramework/D3DInterface.h"
+#include "SexyAppFramework/DDInterface.h"
+
 bool gIsPartnerBuild = false;
 bool gSlowMo = false;  
 bool gFastMo = false;  
 LawnApp* gLawnApp = nullptr;  
 int gSlowMoCounter = 0;  
 
+#include <SDL3/SDL.h>
+SDL_Window* LawnApp::mSDLWindow = nullptr;
+SDL_Renderer* LawnApp::mSDLRenderer = nullptr;
+
 const char* CLIENT_ID = "1261368391885787348";
+
+
+void LawnApp::MakeWindow()
+{
+	//SexyAppBase::MakeWindow();
+	if (mSDLWindow != nullptr) {
+		SDL_DestroyRenderer(mSDLRenderer);
+		SDL_DestroyWindow(mSDLWindow);
+	}
+
+	if (mDDInterface == nullptr) {
+		mDDInterface = new DDInterface(this);
+	}
+
+	gBoardBounds = Rect{ 0, 0, mWidth, mHeight };
+
+	unsigned long long windowFlags = 0UL;
+	if (!mIsWindowed) windowFlags |= SDL_WINDOW_FULLSCREEN;
+	windowFlags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
+
+	SDL_RendererLogicalPresentation presentationMode;
+
+	mSDLWindow = SDL_CreateWindow(mTitle.c_str(), mWidth, mHeight, windowFlags);
+	mSDLRenderer = SDL_CreateRenderer(mSDLWindow, nullptr);
+	SDL_SetRenderVSync(mSDLRenderer, SDL_RENDERER_VSYNC_DISABLED); //TODO: add mEnableVsync option later
+	SDL_SetRenderLogicalPresentation(mSDLRenderer, mWidth, mHeight, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+	mHWnd = (HWND)SDL_GetPointerProperty(SDL_GetWindowProperties(mSDLWindow), SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
+
+	mWidgetManager->mWidth = mWidth;
+	mWidgetManager->mHeight = mHeight;
+
+	mWidgetManager->mImage = new SDL3Image(mSDLRenderer);
+	mWidgetManager->mImage->mWidth = mWidth;
+	mWidgetManager->mImage->mHeight = mHeight;
+	mWidgetManager->mImage->mD3DData = SDL_CreateTexture(mSDLRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, mWidgetManager->mImage->mWidth, mWidgetManager->mImage->mHeight);
+	SDL_SetTextureBlendMode((SDL_Texture*)mWidgetManager->mImage->mD3DData, SDL_BLENDMODE_BLEND);
+	mWidgetManager->MarkAllDirty();
+}
 
 bool LawnGetCloseRequest()
 {

@@ -4,6 +4,8 @@
 #include "ConstEnums.h"
 #include "SexyAppFramework/SexyApp.h"
 
+#include <SDL3/SDL.h>
+
 class Board;
 class GameSelector;
 class ChallengeDefinition;
@@ -58,6 +60,10 @@ public:
 
 class LawnApp : public SexyApp
 {
+public:
+	static SDL_Window* mSDLWindow;
+	static SDL_Renderer* mSDLRenderer;
+
 public:
 	Board*							mBoard;											
 	TitleScreen*					mTitleScreen;									
@@ -140,6 +146,8 @@ public:
 	time_t							mStartTime;
 	SexyString                      mDetails;
 	SexyString                      mState;
+
+	Rect							gBoardBounds;
 
 public:
 	LawnApp();
@@ -347,6 +355,8 @@ public:
 	void							GetAchievement(AchievementType theAchievementType);
 	void							UpdateDiscordState(SexyString theState = "");
 	bool							Is3dAccel();
+
+	void							MakeWindow();
 };
 
 SexyString							LawnGetCurrentLevelName();

@@ -603,6 +603,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="SDL3Image.cpp" />
     <ClCompile Include="SEHCatcher.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -1027,6 +1028,7 @@
     <ClInclude Include="ScrollbarWidget.h" />
     <ClInclude Include="ScrollbuttonWidget.h" />
     <ClInclude Include="ScrollListener.h" />
+    <ClInclude Include="SDL3Image.h" />
     <ClInclude Include="SEHCatcher.h" />
     <ClInclude Include="SexyApp.h" />
     <ClInclude Include="SexyAppBase.h" />
