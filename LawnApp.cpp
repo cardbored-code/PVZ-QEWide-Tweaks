@@ -69,6 +69,8 @@ int gSlowMoCounter = 0;
 SDL_Window* LawnApp::mSDLWindow = nullptr;
 SDL_Renderer* LawnApp::mSDLRenderer = nullptr;
 
+#include <thread>
+
 const char* CLIENT_ID = "1261368391885787348";
 
 
@@ -87,6 +89,7 @@ void LawnApp::MakeWindow()
 	gBoardBounds = Rect{ 0, 0, mWidth, mHeight };
 
 	unsigned long long windowFlags = 0UL;
+	windowFlags |= SDL_WINDOW_RESIZABLE;
 	if (!mIsWindowed) windowFlags |= SDL_WINDOW_FULLSCREEN;
 	windowFlags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
 
@@ -638,6 +641,10 @@ void LawnApp::Shutdown()
 		FreeGlobalAllocators();
 		UpdateRegisterInfo();
 		SexyAppBase::Shutdown();
+
+		SDL_DestroyRenderer(mSDLRenderer);
+		SDL_DestroyWindow(mSDLWindow);
+		SDL_Quit();
 
 		if (mDRM)
 		{
@@ -1680,6 +1687,8 @@ void LawnApp::Init()
 #endif
 	aTimer.Start();
 
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+
 	mMusic = new Music();
 	mSoundSystem = new TodFoley();
 	mEffectSystem = new EffectSystem();
@@ -1745,7 +1754,7 @@ void LawnApp::Init()
 #endif
 	aTimer.Start();
 
-
+	SDL_RaiseWindow(LawnApp::mSDLWindow);
 	if ((!Is3DAccelerationSupported() || !Is3DAccelerationRecommended()) && mIs3dAccel)
 		mIs3dAccel = false;
 }
