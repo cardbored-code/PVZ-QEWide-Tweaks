@@ -7161,8 +7161,13 @@ void SexyAppBase::RemoveMemoryImage(MemoryImage* theMemoryImage)
 
 void SexyAppBase::Remove3DData(MemoryImage* theMemoryImage)
 {
-	if (mDDInterface)
-		mDDInterface->Remove3DData(theMemoryImage);
+	/*if (mDDInterface)
+		mDDInterface->Remove3DData(theMemoryImage);*/
+	if (theMemoryImage->mD3DData != nullptr)
+	{
+		SDL_DestroyTexture((SDL_Texture*)theMemoryImage->mD3DData);
+		theMemoryImage->mD3DData = nullptr;
+	}
 }
 
 

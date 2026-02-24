@@ -4076,7 +4076,7 @@ void Plant::Draw(Graphics* g)
 
 void Plant::DrawSeedType(Graphics* g, SeedType theSeedType, SeedType theImitaterType, DrawVariation theDrawVariation, float thePosX, float thePosY)
 {
-    Graphics aSeedG(*g);
+    g->PushState();
     int aCelRow = 0;
     int aCelCol = 2;
     float aOffsetX = 0.0f;
@@ -4100,21 +4100,35 @@ void Plant::DrawSeedType(Graphics* g, SeedType theSeedType, SeedType theImitater
     if (((LawnApp*)gSexyAppBase)->mGameMode == GameMode::GAMEMODE_CHALLENGE_BIG_TIME &&
         (aSeedType == SeedType::SEED_WALLNUT || aSeedType == SeedType::SEED_SUNFLOWER || aSeedType == SeedType::SEED_MARIGOLD))
     {
-        aSeedG.mScaleX *= 1.5f;
-        aSeedG.mScaleY *= 1.5f;
+        g->mScaleX *= 1.5f;
+        g->mScaleY *= 1.5f;
         aOffsetX = -20.0f;
         aOffsetY = -40.0f;
+        g->SetLinearBlend(true);
     }
     if (aSeedType == SeedType::SEED_LEFTPEATER)
     {
-        aOffsetX += aSeedG.mScaleX * 80.0f;
-        aSeedG.mScaleX *= -1.0f;
+        aOffsetX += g->mScaleX * 80.0f;
+        g->mScaleX *= -1.0f;
     }
+
+    g->PushState();
 
     if (Challenge::IsZombieSeedType(aSeedType))
     {
         ZombieType aZombieType = Challenge::IZombieSeedTypeToZombieType(aSeedType);
-        gLawnApp->mReanimatorCache->DrawCachedZombie(&aSeedG, thePosX + aOffsetX, thePosY + aOffsetY, aZombieType);
+        if (aZombieType == ZombieType::ZOMBIE_POLEVAULTER)
+        {
+            aZombieType = ZombieType::ZOMBIE_CACHED_POLEVAULTER_WITH_POLE;
+        }
+
+        SDL_DisplayID display = SDL_GetPrimaryDisplay();
+        float scale = (float)SDL_GetCurrentDisplayMode(display)->h / 720.0f;
+
+        g->mScaleX /= scale;
+        g->mScaleY /= scale;
+
+        gLawnApp->mReanimatorCache->DrawCachedZombie(g, thePosX + aOffsetX, thePosY + aOffsetY, aZombieType);
     }
     else
     {
@@ -4122,13 +4136,25 @@ void Plant::DrawSeedType(Graphics* g, SeedType theSeedType, SeedType theImitater
 
         if (aSeedType == SeedType::SEED_GIANT_WALLNUT)
         {
-            aSeedG.mScaleX *= 1.4f;
-            aSeedG.mScaleY *= 1.4f;
-            TodDrawImageScaledF(&aSeedG, IMAGE_REANIM_WALLNUT_BODY, thePosX - 53.0f, thePosY - 56.0f, aSeedG.mScaleX, aSeedG.mScaleY);
+            SDL_DisplayID display = SDL_GetPrimaryDisplay();
+            float scale = (float)SDL_GetCurrentDisplayMode(display)->h / 720.0f;
+            g->mScaleX *= 1.4f;
+            g->mScaleY *= 1.4f;
+            TodDrawImageScaledF(g, IMAGE_REANIM_WALLNUT_BODY, thePosX - 53.0f, thePosY - 56.0f, g->mScaleX, g->mScaleY);
         }
         else if (aPlantDef.mReanimationType != ReanimationType::REANIM_NONE)
         {
-            gLawnApp->mReanimatorCache->DrawCachedPlant(&aSeedG, thePosX + aOffsetX, thePosY + aOffsetY, aSeedType, aDrawVariation);
+            SDL_DisplayID display = SDL_GetPrimaryDisplay();
+            float scale = (float)SDL_GetCurrentDisplayMode(display)->h / 720.0f;
+            g->mScaleX /= scale;
+            g->mScaleY /= scale;
+
+            int offsetX, offsetY, aWidth, aHeight;
+            gLawnApp->mReanimatorCache->GetPlantImageSize(aSeedType, offsetX, offsetY, aWidth, aHeight);
+
+            aOffsetX += ((offsetX * (scale - 1)) / 2.0f) * g->mScaleX * scale;
+            aOffsetY += ((offsetY * (scale - 1)) / 2.0f) * g->mScaleY * scale;
+            gLawnApp->mReanimatorCache->DrawCachedPlant(g, thePosX + aOffsetX, thePosY + aOffsetY, aSeedType, aDrawVariation);
         }
         else
         {
@@ -4147,9 +4173,11 @@ void Plant::DrawSeedType(Graphics* g, SeedType theSeedType, SeedType theImitater
                 aCelCol = aPlantImage->mNumCols - 1;
             }
 
-            TodDrawImageCelScaledF(&aSeedG, aPlantImage, thePosX + aOffsetX, thePosY + aOffsetY, aCelCol, aCelRow, aSeedG.mScaleX, aSeedG.mScaleY);
+            TodDrawImageCelScaledF(g, aPlantImage, thePosX + aOffsetX, thePosY + aOffsetY, aCelCol, aCelRow, g->mScaleX, g->mScaleY);
         }
     }
+    g->PopState();
+    g->PopState();
 }
 
 void Plant::MouseDown(int x, int y, int theClickCount)

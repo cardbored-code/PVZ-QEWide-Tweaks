@@ -3,6 +3,7 @@
 
 #include "../../ConstEnums.h"
 #include "../../Sexy.TodLib/TodList.h"
+#include "../../SexyAppFramework/SDL3Image.h"
 namespace Sexy
 {
     class Graphics;
@@ -39,7 +40,8 @@ public:
     void                    DrawCachedPlant(Graphics* g, float thePosX, float thePosY, SeedType theSeedType, DrawVariation theDrawVariation);
     void                    DrawCachedMower(Graphics* g, float thePosX, float thePosY, LawnMowerType theMowerType);
     void                    DrawCachedZombie(Graphics* g, float thePosX, float thePosY, ZombieType theZombieType);
-    MemoryImage*            MakeBlankMemoryImage(int theWidth, int theHeight);
+    SDL3Image*              MakeBlankSDL3Image(int theWidth, int theHeight);
+    MemoryImage*            ConvertSDL3ImageToMemoryImage(SDL3Image* theImage);
     MemoryImage*            MakeCachedPlantFrame(SeedType theSeedType, DrawVariation theDrawVariation);
     MemoryImage*            MakeCachedMowerFrame(LawnMowerType theMowerType);
     MemoryImage*            MakeCachedZombieFrame(ZombieType theZombieType);
