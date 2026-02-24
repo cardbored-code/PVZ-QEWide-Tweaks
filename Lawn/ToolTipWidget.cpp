@@ -151,6 +151,10 @@ void ToolTipWidget::Draw(Graphics* g)
 	g->DrawRect(aPosX, aPosY, mWidth - 1, mHeight - 1);
 	aPosY++;
 
+	g->PushState();
+	g->SetLinearBlend(false);
+	g->SetPixelArtBlend(true);
+
 	Font* aTitleFont = USE_OLD_STYLE_TOOLTIP ? FONT_TINYBOLD : FONT_BRIANNETOD16;
 	SexyString aTitle = TodStringTranslate(mTitle);
 	if (!aTitle.empty())

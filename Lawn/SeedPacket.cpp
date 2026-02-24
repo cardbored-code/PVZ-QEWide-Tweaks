@@ -197,7 +197,7 @@ void SeedPacketDrawSeed(Graphics* g, float x, float y, SeedType theSeedType, See
 		aImage = FilterEffectGetImage(aImage, aFilterEffect);
 	}
 
-	if (aSeedType == SeedType::SEED_POTATOMINE && g->mScaleX <= 1.0f)
+	/*if (aSeedType == SeedType::SEED_POTATOMINE && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 0, 0, g->mScaleX, g->mScaleY);
 	}
@@ -248,14 +248,11 @@ void SeedPacketDrawSeed(Graphics* g, float x, float y, SeedType theSeedType, See
 	else if (aSeedType == SeedType::SEED_SPIKEROCK && g->mScaleX <= 1.0f)
 	{
 		TodDrawImageCelScaledF(g, aImage, x, y, 12, 0, g->mScaleX, g->mScaleY);
-	}
-	else
-	{
-		Graphics aSeedG(*g);
-		aSeedG.mScaleX = theScale * g->mScaleX;
-		aSeedG.mScaleY = theScale * g->mScaleY;
-		Plant::DrawSeedType(&aSeedG, theSeedType, theImitaterType, DrawVariation::VARIATION_NORMAL, x + theOffsetX, y + theOffsetY);
-	}
+	}*/
+	Graphics aSeedG(*g);
+	aSeedG.mScaleX = theScale * g->mScaleX;
+	aSeedG.mScaleY = theScale * g->mScaleY;
+	Plant::DrawSeedType(&aSeedG, theSeedType, theImitaterType, DrawVariation::VARIATION_NORMAL, x + theOffsetX, y + theOffsetY);
 }
 
 void DrawSeedPacket(Graphics* g, float x, float y, SeedType theSeedType, SeedType theImitaterType, float thePercentDark, int theGrayness, bool theDrawCost, bool theUseCurrentCost)
@@ -559,6 +556,9 @@ void DrawSeedPacket(Graphics* g, float x, float y, SeedType theSeedType, SeedTyp
 		{
 			aCostStr = StrFormat(_S("%d"), Plant::GetCost(theSeedType, theImitaterType));
 		}
+
+		g->SetLinearBlend(false);
+		g->SetPixelArtBlend(true);
 
 		Font* aTextFont = USE_OLD_STYLE_SEEDPACKET ? Sexy::FONT_PICO129 : Sexy::FONT_BRIANNETOD12;
 		int aTextOffsetX = 32 - aTextFont->StringWidth(aCostStr);

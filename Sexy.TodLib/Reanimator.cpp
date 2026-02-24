@@ -586,36 +586,55 @@ void Reanimation::MatrixFromTransform(const ReanimatorTransform& theTransform, S
 
 void Reanimation::ReanimBltMatrix(Graphics* g, Image* theImage, SexyMatrix3& theTransform, const Rect& theClipRect, const Color& theColor, int theDrawMode, const Rect& theSrcRect)
 {
-	if (!gSexyAppBase->mIs3dAccel &&
-		TestBit(gReanimationParamArray[(int)mReanimationType].mReanimParamFlags, (int)ReanimFlags::REANIM_FAST_DRAW_IN_SW_MODE) &&  
-		FloatApproxEqual(theTransform.m01, 0.0f) && FloatApproxEqual(theTransform.m10, 0.0f) &&  
-		theTransform.m00 > 0.0f && theTransform.m11 > 0.0f &&  
-		theColor == Color::White)
+	//if (!gSexyAppBase->Is3DAccelerated()  // 未开启 3D 硬件加速
+	//	&& TestBit(gReanimationParamArray[(int)mReanimationType].mReanimParamFlags, (int)ReanimFlags::REANIM_FAST_DRAW_IN_SW_MODE) // 动画允许使用软件渲染
+	//	&& FloatApproxEqual(theTransform.m01, 0.0f) && FloatApproxEqual(theTransform.m10, 0.0f)  // 横向和纵向的倾斜值均为 0
+	//	&& abs(theTransform.m00) > 0.0f && abs(theTransform.m11) > 0.0f  // 横向和纵向的拉伸值均大于 0
+	//	&& theColor == Color::White)
+	//{
+	//	const float aScaleX = theTransform.m00;
+	//	const float aScaleY = theTransform.m11;
+	//	const int aPosX = FloatRoundToInt(theTransform.m02 - abs(aScaleX) * theSrcRect.mWidth * 0.5f);
+	//	const int aPosY = FloatRoundToInt(theTransform.m12 - abs(aScaleY) * theSrcRect.mHeight * 0.5f);
+	//	const bool isMirrored = aScaleX < 0.0f;
+
+	//	g->PushState();
+	//	g->mClipRect = theClipRect;
+	//	g->mTransX = 0;
+	//	g->mTransY = 0;
+	//	
+	//	if (FloatApproxEqual(abs(aScaleX), 1.0f) && FloatApproxEqual(abs(aScaleY), 1.0f))  // 如果无拉伸
+	//	{
+	//		if (isMirrored)
+	//		{
+	//			g->DrawImageMirror(theImage, aPosX, aPosY, theSrcRect);
+	//		}
+	//		else
+	//		{
+	//			g->DrawImage(theImage, aPosX, aPosY, theSrcRect);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		const int aWidth = FloatRoundToInt(abs(aScaleX) * theSrcRect.mWidth);
+	//		const int aHeight = FloatRoundToInt(abs(aScaleY) * theSrcRect.mHeight);
+	//		const Rect aDestRect(aPosX, aPosY, aWidth, aHeight);
+
+	//		if (isMirrored)
+	//		{
+	//			g->DrawImageMirror(theImage, aDestRect, theSrcRect);
+	//		}
+	//		else
+	//		{
+	//			g->DrawImage(theImage, aDestRect, theSrcRect);
+	//		}
+	//	}
+	//	g->PopState();
+	//}
+	//else
 	{
-		float aScaleX = theTransform.m00;
-		float aScaleY = theTransform.m11;
-		int aPosX = FloatRoundToInt(theTransform.m02 - aScaleX * theSrcRect.mWidth * 0.5f);
-		int aPosY = FloatRoundToInt(theTransform.m12 - aScaleY * theSrcRect.mHeight * 0.5f);
-		int aOldMode = g->GetDrawMode();  
-		g->SetDrawMode(theDrawMode);
-		Rect aOldClipRect = g->mClipRect;  
-		g->SetClipRect(theClipRect);
-
-		if (FloatApproxEqual(aScaleX, 1.0f) && FloatApproxEqual(aScaleY, 1.0f))  
-			g->DrawImage(theImage, aPosX, aPosY, theSrcRect);
-		else
-		{
-			int aWidth = FloatRoundToInt(aScaleX * theSrcRect.mWidth);
-			int aHeight = FloatRoundToInt(aScaleY * theSrcRect.mHeight);
-			Rect aDestRect(aPosX, aPosY, aWidth, aHeight);
-			g->DrawImage(theImage, aDestRect, theSrcRect);
-		}
-
-		g->SetDrawMode(aOldMode);  
-		g->SetClipRect(aOldClipRect);  
-	}
-	else
 		TodBltMatrix(g, theImage, theTransform, theClipRect, theColor, theDrawMode, theSrcRect);
+	}
 }
 
 bool Reanimation::DrawTrack(Graphics* g, int theTrackIndex, int theRenderGroup, TodTriangleGroup* theTriangleGroup)
