@@ -15,6 +15,7 @@
 #include "../SexyAppFramework/SexyMatrix.h"
 #include "../SexyAppFramework/DDInterface.h"
 #include "../SexyAppFramework/D3DInterface.h"
+#include "../SexyAppFramework/SDL3Image.h"
 
 void Tod_SWTri_AddAllDrawTriFuncs()
 {
@@ -680,37 +681,21 @@ void TodSandImageIfNeeded(Image* theImage)
 
 void TodBltMatrix(Graphics* g, Image* theImage, const SexyMatrix3& theTransform, const Rect& theClipRect, const Color& theColor, int theDrawMode, const Rect& theSrcRect)
 {
-	float aOffsetX = 0.0f;
-	float aOffsetY = 0.0f;
-	if (gSexyAppBase->mIs3dAccel)
-	{
-		aOffsetX -= 0.5f;
-		aOffsetY -= 0.5f;
-	}
-	else if (theDrawMode == Graphics::DRAWMODE_ADDITIVE)
+	/*if (theDrawMode == Graphics::DRAWMODE_ADDITIVE)
 	{
 		gTodTriangleDrawAdditive = true;
-	}
+	}*/
 
 	TodSandImageIfNeeded(theImage);
-
-	if (theClipRect.mX != 0 || theClipRect.mY != 0 || theClipRect.mWidth != BOARD_WIDTH || theClipRect.mHeight != BOARD_HEIGHT)
+	if (auto texture = dynamic_cast<SDL3Image*>(g->mDestImage))
 	{
-		g->mDestImage->BltMatrix(theImage, aOffsetX, aOffsetY, theTransform, theClipRect, theColor, theDrawMode, theSrcRect, g->mLinearBlend);
-	}
-	else if (DDImage::Check3D(g->mDestImage))
-	{
-		theImage->mDrawn = true;
-		D3DInterface* aInterface = ((DDImage*)g->mDestImage)->mDDInterface->mD3DInterface;
-		aInterface->BltTransformed(theImage, nullptr, theColor, theDrawMode, theSrcRect, theTransform, g->mLinearBlend, aOffsetX, aOffsetY, true);
+		texture->BltMatrix(theImage, 0, 0, theTransform, theClipRect, theColor, theDrawMode, theSrcRect, g->mLinearBlend, g->mPixelArtBlend);
 	}
 	else
 	{
-		Rect aBufFixClipRect(0, 0, BOARD_WIDTH + 1, BOARD_HEIGHT + 1);
-		g->mDestImage->BltMatrix(theImage, aOffsetX, aOffsetY, theTransform, aBufFixClipRect, theColor, theDrawMode, theSrcRect, g->mLinearBlend);
+		g->mDestImage->BltMatrix(theImage, 0, 0, theTransform, theClipRect, theColor, theDrawMode, theSrcRect, g->mLinearBlend);
 	}
-
-	gTodTriangleDrawAdditive = false;
+	//gTodTriangleDrawAdditive = false;
 }
 
 void TodDrawImageCelCenterScaledF(Graphics* g, Image* theImageStrip, float thePosX, float thePosY, int theCelCol, float theScaleX, float theScaleY)

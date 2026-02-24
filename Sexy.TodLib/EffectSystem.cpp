@@ -10,6 +10,7 @@
 #include "../SexyAppFramework/DDImage.h"
 #include "../SexyAppFramework/DDInterface.h"
 #include "../SexyAppFramework/D3DInterface.h"
+#include "../SexyAppFramework/SDL3Image.h"
 
 EffectSystem* gEffectSystem = nullptr;  
 
@@ -378,19 +379,24 @@ void TodTriangleGroup::DrawGroup(Graphics* g)
 {
 	if (mImage && mTriangleCount)
 	{
-		if (!gSexyAppBase->mIs3dAccel && mDrawMode == Graphics::DRAWMODE_ADDITIVE)
+		if (!gSexyAppBase->Is3DAccelerated() && mDrawMode == Graphics::DRAWMODE_ADDITIVE)
 			gTodTriangleDrawAdditive = true;
 		TodSandImageIfNeeded(mImage);
 
-		if (DDImage::Check3D(g->mDestImage))
+		/*if (DDImage::Check3D(g->mDestImage))
 		{
 			DDImage* anImage = (DDImage*)g->mDestImage;
 			mImage->mDrawn = true;
 			anImage->mDDInterface->mD3DInterface->DrawTrianglesTex(mVertArray, mTriangleCount, Color::White, mDrawMode, mImage, 0.0f, 0.0f, g->mLinearBlend);
 		}
+		else*/
+		if (auto texture = dynamic_cast<SDL3Image*>(g->mDestImage))
+		{
+			texture->BltTrianglesTex(mImage, mVertArray, mTriangleCount, Rect(0, 0, g->mDestImage->GetWidth(), g->mDestImage->GetHeight()), Color::White, mDrawMode, 0, 0, g->mLinearBlend, g->mPixelArtBlend);
+		}
 		else
 		{
-			g->mDestImage->BltTrianglesTex(mImage, mVertArray, mTriangleCount, Rect(0, 0, BOARD_WIDTH, BOARD_HEIGHT), Color::White, mDrawMode, 0.0f, 0.0f, g->mLinearBlend);
+			g->mDestImage->BltTrianglesTex(mImage, mVertArray, mTriangleCount, Rect(0, 0, g->mDestImage->GetWidth(), g->mDestImage->GetHeight()), Color::White, mDrawMode, 0, 0, g->mLinearBlend);
 		}
 
 		mTriangleCount = 0;

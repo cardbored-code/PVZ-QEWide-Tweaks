@@ -46,6 +46,7 @@ public:
 	bool					mWriteColoredString;
 	bool					mLinearBlend;
 	bool					mIs3D;
+	bool					mPixelArtBlend;
 
 public:
 	void					CopyStateFrom(const GraphicsState* theState);
@@ -104,6 +105,9 @@ public:
 
 	void					SetLinearBlend(bool linear); // for DrawImageMatrix, DrawImageTransform, etc...
 	bool					GetLinearBlend();
+
+	void					SetPixelArtBlend(bool pixelart);
+	bool					GetPixelArtBlend();
 
 	void					FillRect(int theX, int theY, int theWidth, int theHeight);
 	void					FillRect(const Rect& theRect);
