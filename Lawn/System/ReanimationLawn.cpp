@@ -338,13 +338,18 @@ MemoryImage* ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		Reanimation aReanim;
 		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
 		aReanim.SetFramesForLayer("anim_idle");
+		aReanim.OverrideScale(scale, scale);
 		Zombie::SetupReanimLayers(&aReanim, aUseZombieType);
 
 		if (theZombieType == ZombieType::ZOMBIE_DOOR)
+		{
 			aReanim.AssignRenderGroupToTrack("anim_screendoor", RENDER_GROUP_NORMAL);
+			aReanim.AssignRenderGroupToTrack("Zombie_outerarm_screendoor", RENDER_GROUP_NORMAL);
+		}
 		else if (theZombieType == ZombieType::ZOMBIE_FLAG)
 		{
 			Reanimation aReanimFlag;
+			aReanimFlag.OverrideScale(scale, scale);
 			aReanimFlag.ReanimationInitializeType(aPosX, aPosY, ReanimationType::REANIM_FLAG);
 			aReanimFlag.SetFramesForLayer("Zombie_flag");
 			aReanimFlag.Draw(&aMemoryGraphics);
@@ -427,10 +432,12 @@ MemoryImage* ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 	else if (aZombieDef.mReanimationType == ReanimationType::REANIM_BOSS)
 	{
 		Reanimation aReanim;
-		aReanim.ReanimationInitializeType(-524.0f, -88.0f, aZombieDef.mReanimationType);
+		aReanim.OverrideScale(scale, scale);
+		aReanim.ReanimationInitializeType(-524.0f * scale, -88.0f * scale, aZombieDef.mReanimationType);
 		aReanim.SetFramesForLayer("anim_head_idle");
 		Reanimation aReanimDriver;
-		aReanimDriver.ReanimationInitializeType(46.0f, 22.0f, ReanimationType::REANIM_BOSS_DRIVER);
+		aReanimDriver.OverrideScale(scale, scale);
+		aReanimDriver.ReanimationInitializeType(46.0f * scale, 22.0f * scale, ReanimationType::REANIM_BOSS_DRIVER);
 		aReanimDriver.SetFramesForLayer("anim_idle");
 
 		aReanim.Draw(&aMemoryGraphics);
@@ -440,18 +447,99 @@ MemoryImage* ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		aReanim.AssignRenderGroupToTrack("boss_head2", RENDER_GROUP_HIDDEN);
 		aReanim.Draw(&aMemoryGraphics);
 	}
-	else if (aZombieDef.mReanimationType == ReanimationType::REANIM_GARGANTUAR && theZombieType == ZombieType::ZOMBIE_REDEYE_GARGANTUAR)
+	else if (theZombieType == ZombieType::ZOMBIE_BALLOON)
 	{
 		Reanimation aReanim;
+		aReanim.OverrideScale(scale, scale);
 		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
-		aReanim.SetFramesForLayer("anim_idle");
-		Zombie::SetupReanimLayers(&aReanim, aUseZombieType);
+		Reanimation aPropellerReanim;
+		aPropellerReanim.OverrideScale(scale, scale);
+		aPropellerReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+		aPropellerReanim.SetFramesForLayer("Propeller");
+		aPropellerReanim.mLoopType = ReanimLoopType::REANIM_LOOP_FULL_LAST_FRAME;
 
 		aReanim.Draw(&aMemoryGraphics);
-		aReanim.SetImageOverride("anim_head1", IMAGE_REANIM_ZOMBIE_GARGANTUAR_HEAD_REDEYE);
-		aReanim.Draw(&aMemoryGraphics);
+		aPropellerReanim.Draw(&aMemoryGraphics);
 	}
+	else if (theZombieType == ZombieType::ZOMBIE_BUNGEE) //TODO: Fix bungee zombie render
+	{
+		Reanimation aReanim;
+		int relativeY = maxHeight - 210 * scale;
+		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+		aReanim.OverrideScale(scale, scale);
 
+		int aCordCelHeight = IMAGE_BUNGEECORD->GetCelHeight();
+		int iterat = 0;
+		aMemoryGraphics.SetLinearBlend(false);
+		for (float y = relativeY - aCordCelHeight; y > -aCordCelHeight; y -= aCordCelHeight)
+		{
+			TodDrawImageScaledF(&aMemoryGraphics, IMAGE_BUNGEECORD, (61.0f - 4.0f + 22) * scale, (-iterat * aCordCelHeight - 14) * scale + relativeY, scale, scale);
+			iterat++;
+		}
+		aMemoryGraphics.SetLinearBlend(true);
+
+		SDL3Image* aMemoryImage2 = MakeBlankSDL3Image(200 * scale, 210 * scale);
+		Graphics aMemoryGraphics2(aMemoryImage2);
+		aMemoryGraphics2.SetLinearBlend(true);
+		SDL_SetRenderTarget(LawnApp::mSDLRenderer, (SDL_Texture*)aMemoryImage2->mD3DData);
+		aReanim.Draw(&aMemoryGraphics2);
+		SDL_SetRenderTarget(LawnApp::mSDLRenderer, (SDL_Texture*)aMemoryImage->mD3DData);
+		aMemoryGraphics.DrawImageF(aMemoryImage2, 0, relativeY);
+	}
+	else if (theZombieType == ZombieType::ZOMBIE_BOBSLED)
+	{
+		{
+			TodDrawImageScaledF(&aMemoryGraphics, IMAGE_ZOMBIE_BOBSLED_INSIDE, -55 * scale, 80 * scale, scale, scale);
+		}
+
+		{
+			Reanimation aReanim;
+			aReanim.OverrideScale(scale, scale);
+			aPosX = 40.0f * scale;
+			aPosY = 30.0f * scale;
+			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+			aReanim.mAnimTime = 1.0f;
+			aReanim.Draw(&aMemoryGraphics);
+		}
+
+		{
+			Reanimation aReanim;
+			aReanim.OverrideScale(scale, scale);
+			aPosX = 90.0f * scale;
+			aPosY = 30.0f * scale;
+			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+			aReanim.mAnimTime = 1.0f;
+			aReanim.Draw(&aMemoryGraphics);
+		}
+
+		{
+			Reanimation aReanim;
+			aReanim.OverrideScale(scale, scale);
+			aPosX = 140.0f * scale;
+			aPosY = 30.0f * scale;
+			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+			aReanim.mAnimTime = 1.0f;
+			aReanim.Draw(&aMemoryGraphics);
+		}
+
+		{
+			Reanimation aReanim;
+			aReanim.OverrideScale(scale, scale);
+			aPosX = 190.0f * scale;
+			aPosY = 30.0f * scale;
+			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+			aReanim.mAnimTime = 1.0f;
+			aReanim.Draw(&aMemoryGraphics);
+		}
+
+		{
+			TodDrawImageScaledF(&aMemoryGraphics, IMAGE_ZOMBIE_BOBSLED1, -55 * scale, 80 * scale, scale, scale);
+		}
+		}
 	else
 	{
 		const char* aTrackName = "anim_idle";
@@ -462,6 +550,7 @@ MemoryImage* ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		else if (theZombieType == ZombieType::ZOMBIE_CACHED_POLEVAULTER_WITH_POLE)
 		{
 			aTrackName = "anim_idle";
+			//aPosX += 50 * scale;
 		}
 		else if (theZombieType == ZombieType::ZOMBIE_POLEVAULTER)
 		{
@@ -469,8 +558,15 @@ MemoryImage* ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		}
 		else if (theZombieType == ZombieType::ZOMBIE_GARGANTUAR)
 		{
-			aPosY = 60.0f;
+			aPosY = 60.0f * scale;
 		}
+		else if (theZombieType == ZombieType::ZOMBIE_ZAMBONI)
+		{
+			//aPosX += 50 * scale;
+		}
+
+		aMemoryGraphics.mScaleX *= scale;
+		aMemoryGraphics.mScaleY *= scale;
 
 		DrawReanimatorFrame(&aMemoryGraphics, aPosX, aPosY, aZombieDef.mReanimationType, aTrackName, DrawVariation::VARIATION_NORMAL);
 	}

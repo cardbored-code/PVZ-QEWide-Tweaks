@@ -289,38 +289,46 @@ void GridItem::DrawScaryPot(Graphics* g)
     int aYPos = mBoard->GridToPixelY(mGridX, mGridY) - 15;
     TodDrawImageCelCenterScaledF(g, IMAGE_PLANTSHADOW2, aXPos - 5.0f, aYPos + 72.0f, 0, 1.3f, 1.3f);
 
+    g->PushState();
     if (mTransparentCounter > 0)
     {
         g->DrawImageCel(IMAGE_SCARY_POT, aXPos, aYPos, aImageCol, 0);
 
-        Graphics aInsideGraphics(*g);
+        g->PushState();
         if (mScaryPotType == ScaryPotType::SCARYPOT_SEED)
         {
-            aInsideGraphics.mScaleX = 0.7f;
-            aInsideGraphics.mScaleY = 0.7f;
-            DrawSeedPacket(&aInsideGraphics, aXPos + 23.0f, aYPos + 33.0f, mSeedType, SeedType::SEED_NONE, 0.0f, 255, false, false);
+            g->mScaleX = 0.7f;
+            g->mScaleY = 0.7f;
+            DrawSeedPacket(g, aXPos + 23.0f, aYPos + 33.0f, mSeedType, SeedType::SEED_NONE, 0.0f, 255, false, false);
         }
         else if (mScaryPotType == ScaryPotType::SCARYPOT_ZOMBIE)
         {
-            aInsideGraphics.mScaleX = 0.4f;
-            aInsideGraphics.mScaleY = 0.4f;
+            g->mScaleX = 0.4f;
+            g->mScaleY = 0.4f;
             float aOffsetX = 6.0f;
             float aOffsetY = 19.0f;
             if (mZombieType == ZombieType::ZOMBIE_FOOTBALL)
             {
-                aInsideGraphics.mScaleX = 0.4f;
-                aInsideGraphics.mScaleY = 0.4f;
+                g->mScaleX = 0.4f;
+                g->mScaleY = 0.4f;
                 aOffsetX = 1.0f;
                 aOffsetY = 16.0f;
             }
             if (mZombieType == ZombieType::ZOMBIE_GARGANTUAR)
             {
-                aInsideGraphics.mScaleX = 0.3f;
-                aInsideGraphics.mScaleY = 0.3f;
+                g->mScaleX = 0.3f;
+                g->mScaleY = 0.3f;
                 aOffsetX += 9.0f;
                 aOffsetY += 7.0f;
             }
-            mApp->mReanimatorCache->DrawCachedZombie(&aInsideGraphics, aXPos + aOffsetX, aYPos + aOffsetY, mZombieType);
+
+            SDL_DisplayID display = SDL_GetPrimaryDisplay();
+            float scale = (float)SDL_GetCurrentDisplayMode(display)->h / 720.0f;
+
+            g->mScaleX /= scale;
+            g->mScaleY /= scale;
+
+            mApp->mReanimatorCache->DrawCachedZombie(g, aXPos + aOffsetX, aYPos + aOffsetY, mZombieType);
         }
         else if (mScaryPotType == ScaryPotType::SCARYPOT_SUN)
         {
@@ -346,6 +354,7 @@ void GridItem::DrawScaryPot(Graphics* g)
                 aReanim.Draw(g);
             }
         }
+        g->PopState();
 
         int aAlpha = TodAnimateCurve(0, 50, mTransparentCounter, 255, 58, TodCurves::CURVE_LINEAR);
         g->SetColorizeImages(true);

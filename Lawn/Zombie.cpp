@@ -5539,9 +5539,11 @@ void Zombie::DrawReanim(Graphics* g, const ZombieDrawPosition& theDrawPos, int t
             aShieldHitOffset = TodAnimateCurveFloat(12, 0, mShieldRecoilCounter, 3.0f, 0.0f, TodCurves::CURVE_LINEAR);
         }
 
+        g->PushState();
         g->mTransX += aShieldHitOffset;
         aBodyReanim->DrawRenderGroup(g, RENDER_GROUP_SHIELD);
         g->mTransX -= aShieldHitOffset;
+        g->PopState();
     }
 
     if (mShieldType == ShieldType::SHIELDTYPE_NEWSPAPER || mShieldType == ShieldType::SHIELDTYPE_DOOR || mShieldType == ShieldType::SHIELDTYPE_LADDER)
@@ -6079,17 +6081,18 @@ void Zombie::Draw(Graphics* g)
 
     if (mAttachmentID != AttachmentID::ATTACHMENTID_NULL)
     {
-        Graphics theParticleGraphics(*g);
-        MakeParentGraphicsFrame(&theParticleGraphics);
-        theParticleGraphics.mTransY += aDrawPos.mBodyY;
+        g->PushState();
+        MakeParentGraphicsFrame(g);
+        g->mTransY += aDrawPos.mBodyY;
 
         if (aDrawPos.mClipHeight > CLIP_HEIGHT_LIMIT)
         {
             float aDrawHeight = 120.0f - aDrawPos.mClipHeight + 21.0f;
-            theParticleGraphics.ClipRect(mX + aDrawPos.mImageOffsetX - 400.0f, mY + aDrawPos.mImageOffsetY - 28.0f, 920, aDrawHeight);
+            g->ClipRect(mX + aDrawPos.mImageOffsetX - 400.0f, mY + aDrawPos.mImageOffsetY - 28.0f, 920, aDrawHeight);
         }
 
-        AttachmentDraw(mAttachmentID, &theParticleGraphics, false);
+        AttachmentDraw(mAttachmentID, g, false);
+        g->PopState();
     }
 
     g->ClearClipRect();
