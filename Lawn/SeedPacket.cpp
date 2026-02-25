@@ -298,7 +298,7 @@ void DrawSeedPacket(Graphics* g, float x, float y, SeedType theSeedType, SeedTyp
 
 	if (g->mScaleX > 1)
 	{
-		TodDrawImageCelScaledF(g, Sexy::IMAGE_SEEDPACKET_LARGER, x, y, 0, 0, g->mScaleX * 0.5f, g->mScaleY * 0.5f);
+		TodDrawImageCelScaledF(g, USE_CONSOLE_SEED_VARIANTS ? Sexy::IMAGE_CONSOLE_SEEDPACKET_LARGER : Sexy::IMAGE_SEEDPACKET_LARGER, x, y, 0, 0, g->mScaleX * 0.5f, g->mScaleY * 0.5f); //WIDETWEAK: add bigger seed packet for console seed packets option
 	}
 	else
 	{

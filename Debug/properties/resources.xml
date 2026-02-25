@@ -94,6 +94,7 @@
 <Image id="SEEDS" path="seeds" cols="10" />
 <Image id="CONSOLE_SEEDS" path="console_seeds" cols="10" />
 <Image id="SEEDPACKET_LARGER" path="SeedPacket_Larger" />
+<Image id="CONSOLE_SEEDPACKET_LARGER" path="console_SeedPacket_Larger" />
 <Image id="SEEDPACKETSILHOUETTE" path="SeedPacketSilhouette" />
 <Image id="FLAGMETER" path="FlagMeter" rows="2" minsubdivide="" />
 <Image id="FLAGMETERLEVELPROGRESS" path="FlagMeterLevelProgress" />

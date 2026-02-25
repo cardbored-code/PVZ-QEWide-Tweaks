@@ -1,5 +1,5 @@
-#ifndef __Resources_H__
-#define __Resources_H__
+#ifndef __resources_H__
+#define __resources_H__
 
 namespace Sexy
 {
@@ -286,6 +286,8 @@ namespace Sexy
 	extern Image* IMAGE_COBCANNON_POPCORN;
 	extern Image* IMAGE_COBCANNON_TARGET;
 	extern Image* IMAGE_COINBANK;
+	extern Image* IMAGE_CONSOLE_SEEDPACKET_LARGER;
+	extern Image* IMAGE_CONSOLE_SEEDS;
 	extern Image* IMAGE_CONVEYORBELT;
 	extern Image* IMAGE_CONVEYORBELT_BACKDROP;
 	extern Image* IMAGE_CRATER;
@@ -528,7 +530,6 @@ namespace Sexy
 	extern Image* IMAGE_SEEDPACKETSILHOUETTE;
 	extern Image* IMAGE_SEEDPACKET_LARGER;
 	extern Image* IMAGE_SEEDS;
-	extern Image* IMAGE_CONSOLE_SEEDS;
 	extern Image* IMAGE_SELECTORSCREEN_ALMANAC;
 	extern Image* IMAGE_SELECTORSCREEN_ALMANACHIGHLIGHT;
 	extern Image* IMAGE_SELECTORSCREEN_HELP1;
@@ -847,6 +848,7 @@ namespace Sexy
 		IMAGE_SEEDS_ID,
 		IMAGE_CONSOLE_SEEDS_ID,
 		IMAGE_SEEDPACKET_LARGER_ID,
+		IMAGE_CONSOLE_SEEDPACKET_LARGER_ID,
 		IMAGE_SEEDPACKETSILHOUETTE_ID,
 		IMAGE_FLAGMETER_ID,
 		IMAGE_FLAGMETERLEVELPROGRESS_ID,
