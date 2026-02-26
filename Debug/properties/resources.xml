@@ -225,6 +225,8 @@
 <Image id="IMITATERSEED" path="ImitaterSeed" />
 <Image id="ALMANAC_IMITATER" path="Almanac_Imitater" />
 <Image id="IMITATERSEEDDISABLED" path="ImitaterSeedDisabled" />
+<Image id="CONSOLE_IMITATERSEED" path="console_ImitaterSeed" />
+<Image id="CONSOLE_IMITATERSEEDDISABLED" path="console_ImitaterSeedDisabled" />
 <Image id="ICETRAP" path="icetrap" />
 <Image id="ICETRAP2" path="icetrap2" />
 <Image id="ICETRAP_PARTICLES" path="icetrap_particles" cols="4" />

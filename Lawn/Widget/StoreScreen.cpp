@@ -308,7 +308,7 @@ void StoreScreen::DrawItemIcon(Graphics* g, int theItemPosition, StoreItem theIt
     }
     else if (theItemType == STORE_ITEM_PLANT_IMITATER)
     {
-        g->DrawImage(Sexy::IMAGE_IMITATERSEED, aPosX, aPosY);
+        g->DrawImage(USE_CONSOLE_SEED_VARIANTS ? Sexy::IMAGE_CONSOLE_IMITATERSEED : Sexy::IMAGE_IMITATERSEED, aPosX, aPosY);
     }
     else if (theItemType == STORE_ITEM_MUSHROOM_GARDEN)
     {
