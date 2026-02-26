@@ -378,7 +378,7 @@ void AlmanacDialog::DrawPlants(Graphics* g)
 
 		if (mApp->Is3dAccel())
 		{
-			g->SetClipRect(475, 0, 397, 500);
+			g->SetClipRect(475, 0, 397 + BOARD_ADDITIONAL_WIDTH, 500);
 			g->mTransY -= 85;
 			g->mTransX += BOARD_ADDITIONAL_WIDTH;
 			mApp->mPoolEffect->PoolEffectDraw(g, aNight);
