@@ -461,85 +461,85 @@ MemoryImage* ReanimatorCache::MakeCachedZombieFrame(ZombieType theZombieType)
 		aReanim.Draw(&aMemoryGraphics);
 		aPropellerReanim.Draw(&aMemoryGraphics);
 	}
-	else if (theZombieType == ZombieType::ZOMBIE_BUNGEE) //TODO: Fix bungee zombie render
-	{
-		Reanimation aReanim;
-		int relativeY = maxHeight - 210 * scale;
-		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
-		aReanim.OverrideScale(scale, scale);
+	//else if (theZombieType == ZombieType::ZOMBIE_BUNGEE) //TODO: Fix bungee zombie render
+	//{
+	//	Reanimation aReanim;
+	//	int relativeY = maxHeight - 210 * scale;
+	//	aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+	//	aReanim.OverrideScale(scale, scale);
 
-		int aCordCelHeight = IMAGE_BUNGEECORD->GetCelHeight();
-		int iterat = 0;
-		aMemoryGraphics.SetLinearBlend(false);
-		for (float y = relativeY - aCordCelHeight; y > -aCordCelHeight; y -= aCordCelHeight)
-		{
-			TodDrawImageScaledF(&aMemoryGraphics, IMAGE_BUNGEECORD, (61.0f - 4.0f + 22) * scale, (-iterat * aCordCelHeight - 14) * scale + relativeY, scale, scale);
-			iterat++;
-		}
-		aMemoryGraphics.SetLinearBlend(true);
+	//	int aCordCelHeight = IMAGE_BUNGEECORD->GetCelHeight();
+	//	int iterat = 0;
+	//	aMemoryGraphics.SetLinearBlend(false);
+	//	for (float y = relativeY - aCordCelHeight; y > -aCordCelHeight; y -= aCordCelHeight)
+	//	{
+	//		TodDrawImageScaledF(&aMemoryGraphics, IMAGE_BUNGEECORD, (61.0f - 4.0f + 22) * scale, (-iterat * aCordCelHeight - 14) * scale + relativeY, scale, scale);
+	//		iterat++;
+	//	}
+	//	aMemoryGraphics.SetLinearBlend(true);
 
-		SDL3Image* aMemoryImage2 = MakeBlankSDL3Image(200 * scale, 210 * scale);
-		Graphics aMemoryGraphics2(aMemoryImage2);
-		aMemoryGraphics2.SetLinearBlend(true);
-		SDL_SetRenderTarget(LawnApp::mSDLRenderer, (SDL_Texture*)aMemoryImage2->mD3DData);
-		aReanim.Draw(&aMemoryGraphics2);
-		SDL_SetRenderTarget(LawnApp::mSDLRenderer, (SDL_Texture*)aMemoryImage->mD3DData);
-		aMemoryGraphics.DrawImageF(aMemoryImage2, 0, relativeY);
-	}
-	else if (theZombieType == ZombieType::ZOMBIE_BOBSLED)
-	{
-		{
-			TodDrawImageScaledF(&aMemoryGraphics, IMAGE_ZOMBIE_BOBSLED_INSIDE, -55 * scale, 80 * scale, scale, scale);
-		}
+	//	SDL3Image* aMemoryImage2 = MakeBlankSDL3Image(200 * scale, 210 * scale);
+	//	Graphics aMemoryGraphics2(aMemoryImage2);
+	//	aMemoryGraphics2.SetLinearBlend(true);
+	//	SDL_SetRenderTarget(LawnApp::mSDLRenderer, (SDL_Texture*)aMemoryImage2->mD3DData);
+	//	aReanim.Draw(&aMemoryGraphics2);
+	//	SDL_SetRenderTarget(LawnApp::mSDLRenderer, (SDL_Texture*)aMemoryImage->mD3DData);
+	//	aMemoryGraphics.DrawImageF(aMemoryImage2, 0, relativeY);
+	//}
+	//else if (theZombieType == ZombieType::ZOMBIE_BOBSLED)
+	//{
+	//	{
+	//		TodDrawImageScaledF(&aMemoryGraphics, IMAGE_ZOMBIE_BOBSLED_INSIDE, -55 * scale, 80 * scale, scale, scale);
+	//	}
 
-		{
-			Reanimation aReanim;
-			aReanim.OverrideScale(scale, scale);
-			aPosX = 40.0f * scale;
-			aPosY = 30.0f * scale;
-			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
-			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
-			aReanim.mAnimTime = 1.0f;
-			aReanim.Draw(&aMemoryGraphics);
-		}
+	//	{
+	//		Reanimation aReanim;
+	//		aReanim.OverrideScale(scale, scale);
+	//		aPosX = 40.0f * scale;
+	//		aPosY = 30.0f * scale;
+	//		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+	//		aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+	//		aReanim.mAnimTime = 1.0f;
+	//		aReanim.Draw(&aMemoryGraphics);
+	//	}
 
-		{
-			Reanimation aReanim;
-			aReanim.OverrideScale(scale, scale);
-			aPosX = 90.0f * scale;
-			aPosY = 30.0f * scale;
-			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
-			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
-			aReanim.mAnimTime = 1.0f;
-			aReanim.Draw(&aMemoryGraphics);
-		}
+	//	{
+	//		Reanimation aReanim;
+	//		aReanim.OverrideScale(scale, scale);
+	//		aPosX = 90.0f * scale;
+	//		aPosY = 30.0f * scale;
+	//		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+	//		aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+	//		aReanim.mAnimTime = 1.0f;
+	//		aReanim.Draw(&aMemoryGraphics);
+	//	}
 
-		{
-			Reanimation aReanim;
-			aReanim.OverrideScale(scale, scale);
-			aPosX = 140.0f * scale;
-			aPosY = 30.0f * scale;
-			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
-			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
-			aReanim.mAnimTime = 1.0f;
-			aReanim.Draw(&aMemoryGraphics);
-		}
+	//	{
+	//		Reanimation aReanim;
+	//		aReanim.OverrideScale(scale, scale);
+	//		aPosX = 140.0f * scale;
+	//		aPosY = 30.0f * scale;
+	//		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+	//		aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+	//		aReanim.mAnimTime = 1.0f;
+	//		aReanim.Draw(&aMemoryGraphics);
+	//	}
 
-		{
-			Reanimation aReanim;
-			aReanim.OverrideScale(scale, scale);
-			aPosX = 190.0f * scale;
-			aPosY = 30.0f * scale;
-			aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
-			aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
-			aReanim.mAnimTime = 1.0f;
-			aReanim.Draw(&aMemoryGraphics);
-		}
+	//	{
+	//		Reanimation aReanim;
+	//		aReanim.OverrideScale(scale, scale);
+	//		aPosX = 190.0f * scale;
+	//		aPosY = 30.0f * scale;
+	//		aReanim.ReanimationInitializeType(aPosX, aPosY, aZombieDef.mReanimationType);
+	//		aReanim.PlayReanim("anim_jump", ReanimLoopType::REANIM_PLAY_ONCE_AND_HOLD, 0, 20.0f);
+	//		aReanim.mAnimTime = 1.0f;
+	//		aReanim.Draw(&aMemoryGraphics);
+	//	}
 
-		{
-			TodDrawImageScaledF(&aMemoryGraphics, IMAGE_ZOMBIE_BOBSLED1, -55 * scale, 80 * scale, scale, scale);
-		}
-		}
+	//	{
+	//		TodDrawImageScaledF(&aMemoryGraphics, IMAGE_ZOMBIE_BOBSLED1, -55 * scale, 80 * scale, scale, scale);
+	//	}
+	//	}
 	else
 	{
 		const char* aTrackName = "anim_idle";
