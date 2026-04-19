@@ -2419,13 +2419,13 @@ PlantingReason Challenge::CanPlantAt(int theGridX, int theGridY, SeedType theSee
 		{
 			return PLANTING_NOT_ON_ART;
 		}
-		if (mApp->mGameMode == GAMEMODE_CHALLENGE_ART_CHALLENGE_WALLNUT)
+		/*if (mApp->mGameMode == GAMEMODE_CHALLENGE_ART_CHALLENGE_WALLNUT) //WIDETWEAK: fix not being able to plant on where the eyes from beta would be in Art Challenge Wallnut. uncomment this if you're implementing the eyes back
 		{
 			if ((theGridX == 4 || theGridX == 6) && theGridY == 1)
 			{
 				return PLANTING_NOT_HERE;
 			}
-		}
+		}*/
 	}
 	else if (mApp->IsFinalBossLevel() && theGridX >= 8)
 	{

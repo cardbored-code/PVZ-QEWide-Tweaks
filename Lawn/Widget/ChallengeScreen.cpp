@@ -412,7 +412,7 @@ void ChallengeScreen::DrawButton(Graphics* g, int theChallengeIndex)
 
 			bool aHighLight = aChallengeButton->mIsOver && theChallengeIndex != mUnlockChallengeIndex;
 			g->SetColorizeImages(false);
-			g->DrawImage(aHighLight ? Sexy::IMAGE_CHALLENGE_WINDOW : Sexy::IMAGE_CHALLENGE_WINDOW_HIGHLIGHT, aPosX - 6, aPosY - 2);
+			g->DrawImage(aHighLight ? Sexy::IMAGE_CHALLENGE_WINDOW_HIGHLIGHT : Sexy::IMAGE_CHALLENGE_WINDOW, aPosX - 6, aPosY - 2); //WIDETWEAK: fix challenge button highlight effect
 
 			Color aTextColor = aHighLight ? Color(250, 40, 40) : Color(42, 42, 90);
 			SexyString aName = TodStringTranslate(aDef.mChallengeName);
@@ -441,18 +441,18 @@ void ChallengeScreen::DrawButton(Graphics* g, int theChallengeIndex)
 				{
 					g->DrawImage(Sexy::IMAGE_MINIGAME_TROPHY, aPosX - 6, aPosY - 2);
 				}
-				else if (mApp->IsEndlessScaryPotter(aDef.mChallengeMode) || mApp->IsEndlessIZombie(aDef.mChallengeMode))
-				{
-					SexyString aAchievement = mApp->Pluralize(aRecord, _S("[ONE_FLAG]"), _S("[COUNT_FLAGS]"));
-					TodDrawString(g, aAchievement, aPosX + 48, aPosY + 48, Sexy::FONT_CONTINUUMBOLD14OUTLINE, Color::White, DS_ALIGN_CENTER);
-					TodDrawString(g, aAchievement, aPosX + 48, aPosY + 48, Sexy::FONT_CONTINUUMBOLD14, Color(255, 0, 0), DS_ALIGN_CENTER);
-				}
-				else if (mApp->IsSurvivalEndless(aDef.mChallengeMode))
+				else if (mApp->IsEndlessScaryPotter(aDef.mChallengeMode) || mApp->IsEndlessIZombie(aDef.mChallengeMode)) //WIDETWEAK: fix survival levels using "Longest Strike" instead of "X flags" and viceversa
 				{
 					SexyString aAchievement = TodReplaceNumberString(_S("[LONGEST_STREAK]"), _S("{STREAK}"), aRecord);
 					Rect aRect(aPosX, aPosY + 15, 96, 200);
 					TodDrawStringWrapped(g, aAchievement, aRect, Sexy::FONT_CONTINUUMBOLD14OUTLINE, Color::White, DS_ALIGN_CENTER);
 					TodDrawStringWrapped(g, aAchievement, aRect, Sexy::FONT_CONTINUUMBOLD14, Color(255, 0, 0), DS_ALIGN_CENTER);
+				}
+				else if (mApp->IsSurvivalEndless(aDef.mChallengeMode))
+				{
+					SexyString aAchievement = mApp->Pluralize(aRecord, _S("[ONE_FLAG]"), _S("[COUNT_FLAGS]"));
+					TodDrawString(g, aAchievement, aPosX + 48, aPosY + 48, Sexy::FONT_CONTINUUMBOLD14OUTLINE, Color::White, DS_ALIGN_CENTER);
+					TodDrawString(g, aAchievement, aPosX + 48, aPosY + 48, Sexy::FONT_CONTINUUMBOLD14, Color(255, 0, 0), DS_ALIGN_CENTER);
 				}
 			}
 			else if (aChallengeButton->mDisabled)

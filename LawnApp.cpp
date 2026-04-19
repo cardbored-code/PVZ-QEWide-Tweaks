@@ -2662,11 +2662,11 @@ bool LawnApp::IsLittleTroubleLevel()
 
 bool LawnApp::IsScaryPotterLevel()
 {
+	if (mGameMode >= GameMode::GAMEMODE_SCARY_POTTER_1 && mGameMode <= GameMode::GAMEMODE_SCARY_POTTER_ENDLESS) //WIDETWEAK: fix i zombie award screen text showing instead of vasebreaker text
+		return true;
+
 	if (mBoard == nullptr)
 		return false;
-
-	if (mGameMode >= GameMode::GAMEMODE_SCARY_POTTER_1 && mGameMode <= GameMode::GAMEMODE_SCARY_POTTER_ENDLESS)
-		return true;
 
 	return IsAdventureMode() && mBoard->mLevel == 35;
 }

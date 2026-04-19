@@ -485,6 +485,8 @@ void Music::UpdateMusicBurst()
 
 	if (mApp->mBoard == nullptr)
 		return;
+	if (mApp->mGameMode == GameMode::GAMEMODE_INTRO) //WIDETWEAK: fix horde version of watery graves playing during the intro instead of the normal version (thanks TG)
+		return;
 
 	int aBurstScheme;
 	if (mCurMusicTune == MusicTune::MUSIC_TUNE_DAY_GRASSWALK || mCurMusicTune == MusicTune::MUSIC_TUNE_POOL_WATERYGRAVES ||
