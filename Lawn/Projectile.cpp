@@ -262,7 +262,9 @@ void Projectile::CheckForCollision()
 		return;
 	}
 
-	if (mProjectileType == ProjectileType::PROJECTILE_STAR && (mPosY > 600.0f + BOARD_OFFSET_Y || mPosY < 0.0f + BOARD_OFFSET_Y))
+	if (/*mProjectileType == ProjectileType::PROJECTILE_STAR && (*/mPosY > 600.0f + BOARD_OFFSET_Y || mPosY < 0.0f + BOARD_OFFSET_Y/*)*/) //WIDETWEAK: made the offscreen detection run for all projectiles?
+		//i think? i dunno i still kinda don't understand, this should probably be fine though??
+		//anyway thanks to semiden or whatever i should refer to you as
 	{
 		Die();
 		return;
