@@ -1631,7 +1631,8 @@ void Plant::UpdateUmbrella()
         Reanimation* aBodyReanim = mApp->ReanimationGet(mBodyReanimID);
         if (aBodyReanim->mLoopCount > 0)
         {
-            PlayIdleAnim(0.0f);
+            float aAnimRate = RandRangeFloat(10.0f, 15.0f); //WIDETWEAK: Fixed Umbrella Leaf doing a faster idle animation after reflection
+            PlayIdleAnim(aAnimRate);
             mState = PlantState::STATE_NOTREADY;
             mRenderOrder = CalcRenderOrder();
         }
