@@ -1018,7 +1018,7 @@ void StoreScreen::PurchaseItem(StoreItem theStoreItem)
                 mApp->mSeedChooserScreen->UpdateAfterPurchase();
             }
             if (theStoreItem >= STORE_ITEM_PLANT_GATLINGPEA && theStoreItem <= STORE_ITEM_PLANT_IMITATER) {
-                if (mApp->HasAllUpgrades())
+                if (mApp->HasAllUpgrades() && HAS_ACHIEVEMENTS) //WIDETWEAK: fixed morticulturalist achievement cutscene playing while achievements are disabled
                 {
                     mInCutscene = true;
                     SetBubbleText(4000, 300, false);
