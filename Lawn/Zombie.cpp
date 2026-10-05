@@ -2238,6 +2238,7 @@ void Zombie::UpdateZombiePeaHead()
         {
             Projectile* aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileType::PROJECTILE_ZOMBIE_PEA);
             aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
+            aProjectile->mDamageRangeFlags = 129U; //WIDETWEAK: Fixed zombotany peas not hitting hypnotized zombies
         }
 
         mPhaseCounter = 150;
@@ -2337,6 +2338,7 @@ void Zombie::UpdateZombieGatlingHead()
         {
             Projectile* aProjectile = mBoard->AddProjectile(aOriginX, aOriginY, mRenderOrder, mRow, ProjectileType::PROJECTILE_ZOMBIE_PEA);
             aProjectile->mMotionType = ProjectileMotion::MOTION_BACKWARDS;
+            aProjectile->mDamageRangeFlags = 129U; //WIDETWEAK: Fixed zombotany peas not hitting hypnotized zombies
         }
 
     }

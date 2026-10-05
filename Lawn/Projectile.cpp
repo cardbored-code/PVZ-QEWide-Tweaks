@@ -293,6 +293,17 @@ void Projectile::CheckForCollision()
 			mApp->AddTodParticle(mPosX - 3.0f, mPosY + 17.0f, mRenderOrder + 1, ParticleEffect::PARTICLE_PEA_SPLAT);
 			Die();
 		}
+
+		Zombie* aZombie = FindCollisionTarget(); //WIDETWEAK: Fixed zombotany peas not hitting hypnotized zombies
+		if (aZombie)
+		{
+			if (aZombie->mOnHighGround && CantHitHighGround())
+			{
+				return;
+			}
+
+			DoImpact(aZombie);
+		}
 		return;
 	}
 
@@ -831,7 +842,7 @@ void Projectile::DoImpact(Zombie* theZombie)
 		mApp->PlaySample(SOUND_DOOMSHROOM);
 		mBoard->ShakeBoard(3, -4);
 	}
-	else if (mProjectileType == ProjectileType::PROJECTILE_PEA)
+	else if (mProjectileType == ProjectileType::PROJECTILE_PEA || mProjectileType == ProjectileType::PROJECTILE_ZOMBIE_PEA) //WIDETWEAK: Fixed zombotany peas not hitting hypnotized zombies
 	{
 		aSplatPosX -= 15.0f;
 		aEffect = ParticleEffect::PARTICLE_PEA_SPLAT;
