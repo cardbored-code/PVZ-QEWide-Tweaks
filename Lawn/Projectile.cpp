@@ -392,7 +392,7 @@ unsigned int Projectile::GetDamageFlags(Zombie* theZombie)
 	{
 		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_HITS_SHIELD_AND_BODY, true);
 	}
-	else if (mMotionType == ProjectileMotion::MOTION_LOBBED || mMotionType == ProjectileMotion::MOTION_BACKWARDS)
+	else if (mMotionType == ProjectileMotion::MOTION_LOBBED || mMotionType == ProjectileMotion::MOTION_BACKWARDS && mProjectileType != PROJECTILE_ZOMBIE_PEA) //WIDETWEAK: improved earlier zombotany pea hypno fix
 	{
 		SetBit(aDamageFlags, (int)DamageFlags::DAMAGE_BYPASSES_SHIELD, true);
 	}
