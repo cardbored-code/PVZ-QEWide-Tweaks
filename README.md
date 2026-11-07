@@ -1,5 +1,5 @@
 # QEWide-Tweaks
-An edit of Quality Enhanced Wide that addresses and fixes many of the bugs that that decompilation (and the ones it was based off of) brought.
+An edit of Quality Enhanced Wide that addresses and fixes many of the bugs that that decompilation (and the ones it was based off of) brought, as well as some vanilla bugs and also just improves the whole reconstruction as a whole.
 ## Original Credits:
 BULL3TB0T
 
